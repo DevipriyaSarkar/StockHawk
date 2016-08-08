@@ -1,0 +1,33 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/list_quote_layout_padding"
+    android:paddingStart="@dimen/list_quote_layout_padding"
+    android:paddingRight="@dimen/list_quote_layout_padding"
+    android:paddingEnd="@dimen/list_quote_layout_padding"
+    android:minHeight="?android:attr/listPreferredItemHeight">
+
+    <TextView
+        android:id="@+id/widget_stock_symbol"
+        style="@style/StockSymbolTextStyle"
+        android:textColor="@android:color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start|center_vertical"
+        tools:text="@string/sample_text_stock_symbol" />
+
+    <TextView
+        android:id="@+id/widget_bid_price"
+        style="@style/BidPriceTextStyle"
+        android:textColor="@android:color/black"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="end|center_vertical"
+        tools:text="@string/sample_text_bid_price" />
+
+</LinearLayout>

@@ -1,0 +1,33 @@
+<resources>
+  <!-- Default screen margins, per the Android Design guidelines. -->
+  <dimen name="activity_horizontal_margin">16dp</dimen>
+  <dimen name="activity_vertical_margin">16dp</dimen>
+
+  <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
+         https://developer.android.com/design/patterns/navigation-drawer.html -->
+  <dimen name="navigation_drawer_width">240dp</dimen>
+
+  <dimen name="nav_up_layout_width">10dp</dimen>
+  <dimen name="nav_up_layout_height">10dp</dimen>
+
+  <dimen name="widget_margin">8dp</dimen>
+  <dimen name="widget_header_text_padding">8dp</dimen>
+  <dimen name="widget_header_padding">5dp</dimen>
+  <dimen name="widget_layout_dimen">32dp</dimen>
+  <dimen name="widget_empty_view_text_size">20sp</dimen>
+
+  <dimen name="chart_layout_margin">10dp</dimen>
+  <dimen name="chart_axis_thickness">2dp</dimen>
+  <dimen name="chart_axis_border_spacing">5dp</dimen>
+  <dimen name="chart_labels_text_size">20sp</dimen>
+
+  <dimen name="fab_layout_margin">16dp</dimen>
+
+  <dimen name="tooltip_text_size">12sp</dimen>
+
+  <dimen name="list_quote_change_padding">3dp</dimen>
+  <dimen name="list_quote_bid_price_padding">10dp</dimen>
+  <dimen name="list_quote_layout_height">72dp</dimen>
+  <dimen name="list_quote_layout_padding">16dp</dimen>
+
+</resources>

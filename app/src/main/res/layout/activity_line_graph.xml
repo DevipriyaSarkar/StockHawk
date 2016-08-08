@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Chart view -->
+    <com.db.chart.view.LineChartView
+        xmlns:chart="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/lineChartView"
+        android:layout_margin="@dimen/chart_layout_margin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        chart:chart_axisThickness="@dimen/chart_axis_thickness"
+        chart:chart_axisBorderSpacing="@dimen/chart_axis_border_spacing"
+        chart:chart_axisColor="@color/material_blue_700"
+        chart:chart_labelColor="@color/material_blue_700"
+        chart:chart_fontSize="@dimen/chart_labels_text_size"
+        chart:chart_typeface="fonts/Roboto-Light.ttf"/>
+
+</FrameLayout>
