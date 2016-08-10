@@ -8,6 +8,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
@@ -109,21 +110,8 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                       // On FAB click, receive user input. Make sure the stock doesn't already exist
                       // in the DB and proceed accordingly
                       if(!input.toString().equals("")){
-                        Cursor c = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
-                                new String[] { QuoteColumns.SYMBOL }, QuoteColumns.SYMBOL + "= ?",
-                                new String[] { input.toString().toUpperCase() }, null);
-                        if (c.getCount() != 0) {
-                          Toast toast = Toast.makeText(MyStocksActivity.this, getString(R.string.stock_exists_toast),
-                                  Toast.LENGTH_LONG);
-                          toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
-                          toast.show();
-                          return;
-                        } else {
-                          // Add the stock to DB
-                          mServiceIntent.putExtra("tag", "add");
-                          mServiceIntent.putExtra("symbol", input.toString().toUpperCase());
-                          startService(mServiceIntent);
-                        }
+                        StockAsyncTask stockAsyncTask = new StockAsyncTask();
+                        stockAsyncTask.execute(input.toString());
                       } else {
                         //when nothing is entered
                         Toast toast = Toast.makeText(MyStocksActivity.this, getString(R.string.empty_edit_text_toast),
@@ -233,6 +221,39 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
   @Override
   public void onLoaderReset(Loader<Cursor> loader){
     mCursorAdapter.swapCursor(null);
+  }
+
+  // AsyncTask to fetch the stock symbol entered
+  private class StockAsyncTask extends AsyncTask<String, Void, Void> {
+
+    Cursor c;
+    String stock;
+
+    @Override
+    protected Void doInBackground(String... params) {
+      stock = params[0];
+      c = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
+              new String[] { QuoteColumns.SYMBOL }, QuoteColumns.SYMBOL + "= ?",
+              new String[] { stock.toUpperCase() }, null);
+      return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+      if (c.getCount() != 0) {
+        Toast toast = Toast.makeText(MyStocksActivity.this, getString(R.string.stock_exists_toast),
+                Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
+        toast.show();
+        return;
+      } else {
+        // Add the stock to DB
+        mServiceIntent.putExtra("tag", "add");
+        mServiceIntent.putExtra("symbol", stock.toUpperCase());
+        startService(mServiceIntent);
+      }
+    }
+
   }
 
 }
