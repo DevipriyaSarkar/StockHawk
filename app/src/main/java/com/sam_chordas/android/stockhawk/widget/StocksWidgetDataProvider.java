@@ -23,16 +23,15 @@ import java.util.ArrayList;
 // StocksWidgetDataProvider acts as the adapter for the collection view widget,
 // providing RemoteViews to the widget in the getViewAt method.
 
-public class StocksWidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
+class StocksWidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
 
     private Context context = null;
-    private int appWidgetId;
-    ArrayList<String> symbolArrayList;  //array list to hold all symbols
-    ArrayList<String> bidPriceArrayList;    //array list to hold all bid prices
+    private ArrayList<String> symbolArrayList;  //array list to hold all symbols
+    private ArrayList<String> bidPriceArrayList;    //array list to hold all bid prices
 
-    public StocksWidgetDataProvider(Context context, Intent intent) {
+    StocksWidgetDataProvider(Context context, Intent intent) {
         this.context = context;
-        this.appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
     }
 
     @Override
@@ -67,8 +66,8 @@ public class StocksWidgetDataProvider implements RemoteViewsService.RemoteViewsF
         row.setOnClickFillInIntent(R.id.widget_stock_symbol, i);
 
         //set content description
-        row.setContentDescription(R.id.widget_stock_symbol, context.getString(R.string.list_symbol_content_desc) + symbolArrayList.get(position));
-        row.setContentDescription(R.id.widget_bid_price, context.getString(R.string.list_bid_price_content_desc) + bidPriceArrayList.get(position));
+        row.setContentDescription(R.id.widget_stock_symbol, String.format("%s%s", context.getString(R.string.list_symbol_content_desc), symbolArrayList.get(position)));
+        row.setContentDescription(R.id.widget_bid_price, String.format("%s%s", context.getString(R.string.list_bid_price_content_desc), bidPriceArrayList.get(position)));
 
         return (row);
     }
@@ -99,7 +98,7 @@ public class StocksWidgetDataProvider implements RemoteViewsService.RemoteViewsF
         initData();
     }
 
-    public void initData() {
+    private void initData() {
 
         final long token = Binder.clearCallingIdentity();
         try {
@@ -113,7 +112,7 @@ public class StocksWidgetDataProvider implements RemoteViewsService.RemoteViewsF
                 symbolArrayList = new ArrayList<>();
                 bidPriceArrayList = new ArrayList<>();
                 cur.moveToFirst();
-                while (cur.isAfterLast() == false) {
+                while (!cur.isAfterLast()) {
                     String symbol = cur.getString(cur.getColumnIndex("symbol"));
                     String bidPrice = cur.getString(cur.getColumnIndex("bid_price"));
                     Log.d("QUERY", "\nSymbol: " + symbol + ", Bid price: " + bidPrice);
@@ -123,7 +122,9 @@ public class StocksWidgetDataProvider implements RemoteViewsService.RemoteViewsF
                     cur.moveToNext();
                 }
             }
-            cur.close();
+            if (cur != null) {
+                cur.close();
+            }
         } finally {
             Binder.restoreCallingIdentity(token);
         }

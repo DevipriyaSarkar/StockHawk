@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,9 +27,8 @@ import com.sam_chordas.android.stockhawk.touch_helper.ItemTouchHelperViewHolder;
 public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAdapter.ViewHolder>
         implements ItemTouchHelperAdapter{
 
-  private static Context mContext;
+  private Context mContext;
   private static Typeface robotoLight;
-  private boolean isPercent;
   public QuoteCursorAdapter(Context context, Cursor cursor){
     super(context, cursor);
     mContext = context;
@@ -38,8 +38,7 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
     robotoLight = Typeface.createFromAsset(mContext.getAssets(), "fonts/Roboto-Light.ttf");
     View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_quote, parent, false);
-    ViewHolder vh = new ViewHolder(itemView);
-    return vh;
+    return new ViewHolder(itemView);
   }
 
   @Override
@@ -49,19 +48,19 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
     int sdk = Build.VERSION.SDK_INT;
     if (cursor.getInt(cursor.getColumnIndex("is_up")) == 1){
       if (sdk < Build.VERSION_CODES.JELLY_BEAN){
-        viewHolder.change.setBackgroundDrawable(
-                mContext.getResources().getDrawable(R.drawable.percent_change_pill_green));
+        viewHolder.change.setBackground(
+                ContextCompat.getDrawable(mContext, R.drawable.percent_change_pill_green));
       }else {
         viewHolder.change.setBackground(
-                mContext.getResources().getDrawable(R.drawable.percent_change_pill_green));
+                ContextCompat.getDrawable(mContext, R.drawable.percent_change_pill_green));
       }
     } else{
       if (sdk < Build.VERSION_CODES.JELLY_BEAN) {
-        viewHolder.change.setBackgroundDrawable(
-                mContext.getResources().getDrawable(R.drawable.percent_change_pill_red));
+        viewHolder.change.setBackground(
+                ContextCompat.getDrawable(mContext, R.drawable.percent_change_pill_red));
       } else{
         viewHolder.change.setBackground(
-                mContext.getResources().getDrawable(R.drawable.percent_change_pill_red));
+                ContextCompat.getDrawable(mContext, R.drawable.percent_change_pill_red));
       }
     }
     if (Utils.showPercent){
@@ -87,9 +86,9 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
   public static class ViewHolder extends RecyclerView.ViewHolder
           implements ItemTouchHelperViewHolder, View.OnClickListener{
     public final TextView symbol;
-    public final TextView bidPrice;
-    public final TextView change;
-    public ViewHolder(View itemView){
+    final TextView bidPrice;
+    final TextView change;
+    ViewHolder(View itemView){
       super(itemView);
       symbol = (TextView) itemView.findViewById(R.id.stock_symbol);
       symbol.setTypeface(robotoLight);
@@ -98,13 +97,13 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
     }
 
     //method to set content descriptions for the stock
-    public void setContentDesc(Cursor cursor) {
+    void setContentDesc(Cursor cursor) {
       symbol.setContentDescription(itemView.getContext().getString(R.string.list_symbol_content_desc) + cursor.getString(cursor.getColumnIndex("symbol")));
-      bidPrice.setContentDescription(itemView.getContext().getString(R.string.list_bid_price_content_desc) + cursor.getString(cursor.getColumnIndex("bid_price")));
+      bidPrice.setContentDescription(String.format("%s%s", itemView.getContext().getString(R.string.list_bid_price_content_desc), cursor.getString(cursor.getColumnIndex("bid_price"))));
       if(Utils.showPercent)
-        change.setContentDescription(itemView.getContext().getString(R.string.list_percent_change_content_desc) + cursor.getString(cursor.getColumnIndex("percent_change")));
+        change.setContentDescription(String.format("%s%s", itemView.getContext().getString(R.string.list_percent_change_content_desc), cursor.getString(cursor.getColumnIndex("percent_change"))));
       else
-        change.setContentDescription(itemView.getContext().getString(R.string.list_change_content_desc) + cursor.getString(cursor.getColumnIndex("change")));
+        change.setContentDescription(String.format("%s%s", itemView.getContext().getString(R.string.list_change_content_desc), cursor.getString(cursor.getColumnIndex("change"))));
 
     }
 

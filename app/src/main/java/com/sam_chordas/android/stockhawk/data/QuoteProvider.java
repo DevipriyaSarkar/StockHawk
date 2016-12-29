@@ -1,6 +1,7 @@
 package com.sam_chordas.android.stockhawk.data;
 
 import android.net.Uri;
+
 import net.simonvt.schematic.annotation.ContentProvider;
 import net.simonvt.schematic.annotation.ContentUri;
 import net.simonvt.schematic.annotation.InexactContentUri;

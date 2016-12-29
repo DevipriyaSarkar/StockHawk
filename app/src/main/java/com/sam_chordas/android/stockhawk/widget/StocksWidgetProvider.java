@@ -28,16 +28,16 @@ public class StocksWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
-        for(int i = 0; i < appWidgetIds.length; i++) {
+        for (int appWidgetId : appWidgetIds) {
             Intent serviceIntent = new Intent(context, StocksWidgetService.class);
 
-            serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
+            serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)));
 
             RemoteViews widget = new RemoteViews(context.getPackageName(), R.layout.stock_widget_layout);
 
             // Sets the remote adapter used to fill in the list items
-            widget.setRemoteAdapter(appWidgetIds[i], R.id.widget_list, serviceIntent);
+            widget.setRemoteAdapter(R.id.widget_list, serviceIntent);
             // Display appropriate message if list view empty
             widget.setEmptyView(R.id.widget_list, R.id.empty_view);
 
@@ -51,7 +51,7 @@ public class StocksWidgetProvider extends AppWidgetProvider {
 
             // Instruct the widget manager to update the widget
             ComponentName component = new ComponentName(context, StocksWidgetProvider.class);
-            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds[i], R.id.widget_list);
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_list);
             appWidgetManager.updateAppWidget(component, widget);
         }
 

@@ -11,7 +11,6 @@ android:layout_margin="@dimen/widget_margin">
     android:orientation="vertical">
     <!-- Widget Header -->
     <LinearLayout
-        android:id="@+id/widget_layout_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/light_gray_widget_header_bg"
@@ -21,7 +20,6 @@ android:layout_margin="@dimen/widget_margin">
         android:paddingRight="@dimen/widget_header_padding"
         android:paddingEnd="@dimen/widget_header_padding" >
         <ImageView
-            android:id="@+id/widget_img_launcher"
             android:layout_width="@dimen/widget_layout_dimen"
             android:layout_height="@dimen/widget_layout_dimen"
             android:layout_gravity="center_vertical"

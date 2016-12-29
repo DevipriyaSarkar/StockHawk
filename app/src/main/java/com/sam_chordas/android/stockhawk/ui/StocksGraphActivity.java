@@ -1,9 +1,9 @@
 package com.sam_chordas.android.stockhawk.ui;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -62,7 +62,7 @@ public class StocksGraphActivity extends AppCompatActivity{
             count = 0;
             bidPriceList = new ArrayList<>();
             isCurrentList = new ArrayList<>();
-            while (cur.isBeforeFirst() == false) {
+            while (!cur.isBeforeFirst()) {
                 if (count == 10)
                     break;
                 count++;
@@ -76,7 +76,9 @@ public class StocksGraphActivity extends AppCompatActivity{
                 cur.moveToPrevious();
             }
         }
-        cur.close();
+        if (cur != null) {
+            cur.close();
+        }
 
         //add points to the data set such that the latest value is the last point
         count = 0;
@@ -86,12 +88,12 @@ public class StocksGraphActivity extends AppCompatActivity{
                 //old bid prices in yellow
                 count++;
                 point = new Point(String.valueOf(count), bidPriceList.get(i));
-                point.setColor(getResources().getColor(R.color.yellow));
+                point.setColor(ContextCompat.getColor(getApplicationContext(), R.color.yellow));
                 point.setRadius(Tools.fromDpToPx(6));
             } else if(isCurrentList.get(i) == 1) {
                 //current bid price shown in red
                 point = new Point(getString(R.string.graph_label_now), bidPriceList.get(i));
-                point.setColor(getResources().getColor(R.color.material_red_700));
+                point.setColor(ContextCompat.getColor(getApplicationContext(), R.color.material_red_700));
                 point.setRadius(Tools.fromDpToPx(8));
             }
             if(!point.getLabel().equals("null"))    //point not null
@@ -121,8 +123,8 @@ public class StocksGraphActivity extends AppCompatActivity{
         lineChartView.setAxisBorderValues(min, max, 1);
         lineChartView.setXLabels(AxisController.LabelPosition.OUTSIDE);
         lineChartView.setYLabels(AxisController.LabelPosition.OUTSIDE);
-        dataSet.setColor(getResources().getColor(R.color.material_blue_500))
-                .setDotsStrokeColor(getResources().getColor(R.color.material_blue_500))
+        dataSet.setColor(ContextCompat.getColor(getApplicationContext(), R.color.material_blue_500))
+                .setDotsStrokeColor(ContextCompat.getColor(getApplicationContext(), R.color.material_blue_500))
                 .setDashed(new float[] {10f, 10f})
                 .setThickness(5);
 
