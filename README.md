@@ -9,7 +9,7 @@ The features added as a part of the project:
 * Localized for distribution in other countries.
 * Offline data persistence.
 
-##Screenshots
+## Screenshots
 
 <img src="screenshots/screenshot1.png" width="360" alt="Stock List Screen">
 <img src="screenshots/screenshot2.png" width="360" alt="Stock Graph Screen">
